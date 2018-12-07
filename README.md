@@ -1,5 +1,6 @@
-# using-babel-7
+# Different implementation of graphql
 
-## All credits goes to this person
+Go to different branch to check out different implementation of grapql
+such as `express-graphql` and `apollo-server-express`.
 
-[https://hackernoon.com/using-babel-7-with-node-7e401bc28b04](https://hackernoon.com/using-babel-7-with-node-7e401bc28b04)
+All of these implementations are using local mongodb data via Mongoose and ExpressJS
