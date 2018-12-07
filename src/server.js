@@ -2,12 +2,19 @@ import express from 'express';
 import helmet from 'helmet';
 import dotenv from 'dotenv';
 import { ApolloServer } from 'apollo-server-express';
-
+import mongoose from 'mongoose';
 import typeDefs from './schema';
 import resolvers from './resolvers';
 
+
 dotenv.config();
 const port = process.env.PORT || 4000;
+
+mongoose.connect('mongodb://localhost:27017/chat');
+const { ObjectId } = mongoose.Types;
+ObjectId.prototype.valueOf = function () {
+  return this.toString();
+};
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
@@ -17,6 +24,4 @@ app.use(helmet());
 
 server.applyMiddleware({ app });
 
-app.listen({ port }, () =>
-  console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`),
-);
+app.listen({ port }, () => console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`));

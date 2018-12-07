@@ -77,16 +77,4 @@ const typeDefs = gql`
   scalar ISODate
 `;
 
-// const resolvers = {
-//   Query,
-//   Mutation,
-//   Question,
-//   Post,
-//   User,
-//   Vote,
-//   ISODate,
-// };
-
-// export default makeExecutableSchema({ typeDefs, resolvers });
-
 export default typeDefs;
