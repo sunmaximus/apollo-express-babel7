@@ -1,7 +1,7 @@
 # Appolo Graqhql implementation
 
 ## Description
-This is an example of how to run mongodb and apollo(2.0) graphql server with the latets Babel and using express
+This is an example of how to run mongodb and apollo(2.0) graphql server with the latest Babel and using express
 
 ### To Start the Project
 Assume you are connected to a local mongodb
