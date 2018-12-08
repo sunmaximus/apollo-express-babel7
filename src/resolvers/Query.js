@@ -2,7 +2,7 @@ import Question from '../models/Question';
 import User from '../models/User';
 import { promisify } from '../helpers';
 
-const resolvers = {
+const Query = {
   questions: (_, args) => promisify(Question.find({}).sort('-createdAt').skip(args.query.offset).limit(args.query.limit)),
   question: (_, args) => promisify(Question.findById(args.id)),
   questionCount: () => promisify(Question.count()),
@@ -11,4 +11,4 @@ const resolvers = {
   userCount: () => promisify(User.count()),
 };
 
-export default resolvers;
+export default Query;

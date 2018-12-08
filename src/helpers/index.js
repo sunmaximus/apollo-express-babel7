@@ -13,4 +13,13 @@ const returnOnError = (operation, alternative) => {
   }
 };
 
+// const promisify = async (query) => {
+//   try {
+//     return await query;
+//   } catch (err) {
+//     console.log(err);
+//     return err;
+//   }
+// };
+
 export { promisify, returnOnError };

@@ -10,7 +10,7 @@ import resolvers from './resolvers';
 dotenv.config();
 const port = process.env.PORT || 4000;
 
-mongoose.connect('mongodb://localhost:27017/chat');
+mongoose.connect('mongodb://localhost:27017/chat', { useNewUrlParser: true, useCreateIndex: true });
 const { ObjectId } = mongoose.Types;
 ObjectId.prototype.valueOf = function () {
   return this.toString();
