@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import { ApolloError } from 'apollo-server-express';
+
 import Question from '../models/Question';
 import Post from '../models/Post';
 import User from '../models/User';
@@ -22,8 +24,7 @@ const Mutation = {
       ]);
       return query[0];
     } catch (err) {
-      console.log(err);
-      return err;
+      throw new ApolloError(err);
     }
   },
   createAnswer: async (_, args) => {
@@ -41,16 +42,14 @@ const Mutation = {
       ]);
       return query[0];
     } catch (err) {
-      console.log(err);
-      return err;
+      throw new ApolloError(err);
     }
   },
   createUser: async (_, args) => {
     try {
       return await User.create({ username: args.input.username, postIds: [] });
     } catch (err) {
-      console.log(err);
-      return err;
+      throw new ApolloError(err);
     }
   },
 };

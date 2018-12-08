@@ -1,3 +1,4 @@
+import { ApolloError } from 'apollo-server-express';
 import Question from '../models/Question';
 import User from '../models/User';
 import { promisify } from '../helpers';
@@ -11,18 +12,17 @@ const Query = {
   users: (_, args) => promisify(User.find({}).skip(args.query.offset).limit(args.query.limit)),
   user: async (_, args) => {
     try {
-      return await User.findById(args.id);
+      const user = await User.findById(args.id);
+      return user;
     } catch (err) {
-      console.log(err);
-      return err;
+      throw new ApolloError(err);
     }
   },
   userCount: async () => {
     try {
       return await User.countDocuments();
     } catch (err) {
-      console.log(err);
-      return err;
+      throw new ApolloError(err);
     }
   },
 };
