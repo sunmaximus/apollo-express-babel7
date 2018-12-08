@@ -9,8 +9,10 @@ import resolvers from './resolvers';
 
 dotenv.config();
 const port = process.env.PORT || 4000;
-
-mongoose.connect('mongodb://localhost:27017/chat', { useNewUrlParser: true, useCreateIndex: true });
+mongoose.set('useNewUrlParser', true);
+mongoose.set('useFindAndModify', false);
+mongoose.set('useCreateIndex', true);
+mongoose.connect('mongodb://localhost:27017/chat');
 const { ObjectId } = mongoose.Types;
 ObjectId.prototype.valueOf = function () {
   return this.toString();

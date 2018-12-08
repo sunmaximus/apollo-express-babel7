@@ -46,3 +46,17 @@ npm run serve
 ## Mongoose Scheme Credits goes to this author
 [https://www.youtube.com/watch?v=TFNQxFFdxL8&list=PL5M9r-aWV-kolt6qNlICdpF-Ofv8cazDl&index=1](https://www.youtube.com/watch?v=TFNQxFFdxL8&list=PL5M9r-aWV-kolt6qNlICdpF-Ofv8cazDl&index=1)
 [https://github.com/l3lackcurtains/graphql-api-tutorial](https://github.com/l3lackcurtains/graphql-api-tutorial)
+
+## Issues (Resolve)
+
+Mongoose Deprecation fixes at time this mongoose version
+[https://mongoosejs.com/docs/deprecations.html](https://mongoosejs.com/docs/deprecations.html)
+
+To fix all deprecation warnings, follow the below steps:
+```
+* mongoose.set('useNewUrlParser', true);
+* mongoose.set('useFindAndModify', false);
+* mongoose.set('useCreateIndex', true);
+* Replace update() with updateOne(), updateMany(), or replaceOne()
+* Replace remove() with deleteOne() or deleteMany().
+```
