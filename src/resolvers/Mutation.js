@@ -3,53 +3,56 @@ import Question from '../models/Question';
 import Post from '../models/Post';
 import User from '../models/User';
 
-const createQuestion = (id, title, firstPostId) => new Promise((resolve, reject) => {
-  Question.create({ title, firstPostId, _id: id }, (err, result) => {
-    if (err) reject(err);
-    else resolve(result);
-  });
-});
-
-const createPost = (id, content, authorId, questionId, isQuestion) => new Promise((resolve, reject) => {
-  Post.create({
-    content, authorId, questionId, isQuestion, _id: id,
-  }, (err, result) => {
-    if (err) reject(err);
-    else resolve(result);
-  });
-});
-
-const appendPostToUser = (authorId, postId) => new Promise((resolve, reject) => {
-  User.update({ _id: authorId }, { $push: { postIds: postId } }, (err, result) => {
-    if (err) reject(err);
-    else resolve(result);
-  });
-});
-
-
 const Mutation = {
-  createQuestion: (_, args) => {
+  createQuestion: async (_, args) => {
     const questionId = mongoose.Types.ObjectId();
     const postId = mongoose.Types.ObjectId();
-    return Promise.all([
-      createQuestion(questionId, args.input.title, postId),
-      createPost(postId, args.input.content, args.input.authorId, questionId, true),
-      appendPostToUser(args.input.authorId, postId),
-    ]).then(result => result[0]);
+
+    try {
+      const query = await Promise.all([ // (id, title, firstPostId)
+        Question.create({ _id: questionId, title: args.input.title, firstPostId: postId }),
+        Post.create({
+          _id: postId,
+          content: args.input.content,
+          authorId: args.input.authorId,
+          questionId,
+          isQuestion: true,
+        }), //
+        User.updateOne({ _id: args.input.authorId }, { $push: { postIds: postId } }),
+      ]);
+      return query[0];
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
   },
-  createAnswer: (_, args) => {
+  createAnswer: async (_, args) => {
     const postId = mongoose.Types.ObjectId();
-    return Promise.all([
-      createPost(postId, args.input.content, args.input.authorId, args.input.questionId, false),
-      appendPostToUser(args.input.authorId, postId),
-    ]).then(result => result[0]);
+    try {
+      const query = await Promise.all([ // (id, title, firstPostId)
+        Post.create({
+          _id: postId,
+          content: args.input.content,
+          authorId: args.input.authorId,
+          questionId: args.input.questionId,
+          isQuestion: false,
+        }),
+        User.updateOne({ _id: args.input.authorId }, { $push: { postIds: postId } }),
+      ]);
+      return query[0];
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
   },
-  createUser: (_, args) => new Promise((resolve, reject) => {
-    User.create({ username: args.input.username, postIds: [] }, (err, result) => {
-      if (err) reject(err);
-      else resolve(result);
-    });
-  }),
+  createUser: async (_, args) => {
+    try {
+      return await User.create({ username: args.input.username, postIds: [] });
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  },
 };
 
 export default Mutation;
